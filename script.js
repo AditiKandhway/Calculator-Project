@@ -7,60 +7,94 @@ var operand3=null;
 var operator;
 // display1.innerText=null;
 var cnt=0;
+var arr = [];
 for(var i=0;i<buttons.length;i++)
 {
     buttons[i].addEventListener('click',function(){
         var value=this.getAttribute('data-value');
         console.log(value);
+        var text = display1.textContent.trim();
         // console.log(display);
         if(value=='C')
         {
-            display1.innerText=null;
-            cnt=0;
+            display1.innerText="";
+            arr=[];
         }
         else if(value =='+')
         {
             operator='+';
             operand1=parseFloat(display1.textContent);
-            display1.innerText=null;
+             display1.textContent="";
+             arr=[];
         }
         else if(value=='-')
         {
             operator='-';
             operand1=parseFloat(display1.textContent);
-            display1.innerText=null;
+            display1.textContent="";
+            arr=[];
+        }
+        else if (value == "sign") {
+            operand1 = parseFloat(text);
+            operand1 = -1 * operand1;
+            display1.textContent = operand1;
+            arr=[];
         }
         else if(value=='/')
         {
             operator='/';
             operand1=parseFloat(display1.textContent);
-            display1.innerText=null;
+            display1.textContent="";
+            arr=[];
         }
         else if(value=='*')
         {
             operator='*';
             operand1=parseFloat(display1.textContent);
-            display1.innerText=null;
+            display1.textContent="";
+            arr=[];
         }
         else if(value=='%')
         {
             operator='%';
             operand1=parseFloat(display1.textContent);
-            display1.innerText=null;
+            operand1=operand1/100;
+            display1.textContent=operand1;
         }
-        else if(value =='=')
+        else if (value == ".") {
+            if (text.length && !text.includes('.')) {
+                display1.textContent = text + '.';
+            }
+        }
+        else if(value == '=')
         {
             operand2=parseFloat(display1.textContent);
-             display1.innerText=null;
-            display1.innerText=eval(operand1+" "+operator+" "+operand2);
+            var result=eval(operand1+" "+operator+" "+operand2);
+            if(result)
+            {
+                display1.textContent=result;
+                operand1 = result;
+                operand2 = null;
+                operator = null;
+            }
+        }
+        else if(value=='CE')
+        {
+            display1.textContent="";
+            for(var i=0;i<arr.length-1;i++)
+            {
+                console.log(arr[i]);
+            display1.textContent+=arr[i];
+            }
+            arr.pop();
         }
         else{
-            if(cnt==0)
+            if(text.length==20 || text.length==40 || text.length==60 || text.length==80)
             {
-                display1.innerText=null;
+                display1.textContent+='\n';
             }
-             display1.innerText+=value;
-             cnt++;
+             display1.textContent+=value;
+             arr.push(value);
         }
     });
 }
@@ -72,29 +106,65 @@ document.addEventListener('keydown',function(event){
      {
         operator='+';
         operand1=parseFloat(display1.textContent);
-        display1.innerText=null;
+        display1.textContent="";
+        arr=[];
      }
      else if(k==32)
      {
-         display1.innerText=null;
+        display1.textContent="";
+        arr=[];
      }
      else if(k==109)
      {
         operator='-';
         operand1=parseFloat(display1.textContent);
-        display1.innerText=null;
+        display1.textContent="";
+        arr=[];
+     }
+     else if(k==106)
+     {
+        operator='*';
+        operand1=parseFloat(display1.textContent);
+        display1.textContent="";
+        arr=[];
+     }
+     else if(k==111)
+     {
+       operator='/';
+       operand1=parseFloat(display1.textContent);
+       display1.textContent="";
+       arr=[];
      }
       else if(k==13)
       {
         operand2=parseFloat(display1.textContent);
-        display1.innerText=null;
-       display1.innerText=eval(operand1+" "+operator+" "+operand2);
-      }
-     else{
-        if(cnt==0)
+        var result=eval(operand1+" "+operator+" "+operand2);
+        if(result)
         {
-            display1.innerText=null;
+            display1.textContent=result;
+            operand1 = result;
+            operand2 = null;
+            operator = null;
         }
+      }
+      else if(k==110)
+      {
+            var text = display1.textContent.trim();
+            if (text.length && !text.includes('.')) {
+                display1.textContent = text + '.';
+            }
+     }
+     else if(k==8)
+     {
+        display1.textContent="";
+        for(var i=0;i<arr.length-1;i++)
+        {
+            console.log(arr[i]);
+        display1.textContent+=arr[i];
+        }
+        arr.pop();
+     }
+     else{
         if(k==97)
         {
             value=1;
@@ -131,8 +201,15 @@ document.addEventListener('keydown',function(event){
         {
             value=9;
         }
-         display1.innerText+=value;
-         cnt++;
+        else if(k==96)
+        {
+            value=0;
+        }
+        else{
+            value="";
+        }
+        display1.textContent+=value;
+        arr.push(value);
      }
 
 })
