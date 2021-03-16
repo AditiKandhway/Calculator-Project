@@ -1,9 +1,9 @@
 var buttons=document.getElementsByClassName("button");
 
 var display1 = document.getElementById('screen');
+var tempdisplay = document.getElementById('display');
 var operand1=0;
 var operand2=null;
-var operand3=null;
 var operator;
 // display1.innerText=null;
 var cnt=0;
@@ -18,6 +18,7 @@ for(var i=0;i<buttons.length;i++)
         if(value=='C')
         {
             display1.innerText="";
+            tempdisplay.textContent="";
             arr=[];
         }
         else if(value =='+')
@@ -25,6 +26,9 @@ for(var i=0;i<buttons.length;i++)
             operator='+';
             operand1=parseFloat(display1.textContent);
              display1.textContent="";
+             tempdisplay.textContent="";
+             tempdisplay.textContent+=operand1;
+             tempdisplay.textContent+=operator;
              arr=[];
         }
         else if(value=='-')
@@ -32,12 +36,16 @@ for(var i=0;i<buttons.length;i++)
             operator='-';
             operand1=parseFloat(display1.textContent);
             display1.textContent="";
+            tempdisplay.textContent="";
+            tempdisplay.textContent+=operand1;
+            tempdisplay.textContent+=operator;
             arr=[];
         }
         else if (value == "sign") {
             operand1 = parseFloat(text);
             operand1 = -1 * operand1;
             display1.textContent = operand1;
+            tempdisplay.textContent=operand1;
             arr=[];
         }
         else if(value=='/')
@@ -45,6 +53,9 @@ for(var i=0;i<buttons.length;i++)
             operator='/';
             operand1=parseFloat(display1.textContent);
             display1.textContent="";
+            tempdisplay.textContent="";
+            tempdisplay.textContent+=operand1;
+            tempdisplay.textContent+=operator;
             arr=[];
         }
         else if(value=='*')
@@ -52,6 +63,9 @@ for(var i=0;i<buttons.length;i++)
             operator='*';
             operand1=parseFloat(display1.textContent);
             display1.textContent="";
+            tempdisplay.textContent="";
+            tempdisplay.textContent+=operand1;
+            tempdisplay.textContent+=operator;
             arr=[];
         }
         else if(value=='%')
@@ -60,6 +74,7 @@ for(var i=0;i<buttons.length;i++)
             operand1=parseFloat(display1.textContent);
             operand1=operand1/100;
             display1.textContent=operand1;
+            tempdisplay.textContent=operand1;
         }
         else if (value == ".") {
             if (text.length && !text.includes('.')) {
@@ -69,10 +84,11 @@ for(var i=0;i<buttons.length;i++)
         else if(value == '=')
         {
             operand2=parseFloat(display1.textContent);
+            tempdisplay.textContent+=operand2;
             var result=eval(operand1+" "+operator+" "+operand2);
             if(result)
             {
-                display1.textContent=result;
+                 display1.textContent=result;
                 operand1 = result;
                 operand2 = null;
                 operator = null;
@@ -107,11 +123,15 @@ document.addEventListener('keydown',function(event){
         operator='+';
         operand1=parseFloat(display1.textContent);
         display1.textContent="";
+        tempdisplay.textContent="";
+        tempdisplay.textContent+=operand1;
+        tempdisplay.textContent+=operator;
         arr=[];
      }
      else if(k==32)
      {
         display1.textContent="";
+        tempdisplay.textContent="";
         arr=[];
      }
      else if(k==109)
@@ -119,6 +139,9 @@ document.addEventListener('keydown',function(event){
         operator='-';
         operand1=parseFloat(display1.textContent);
         display1.textContent="";
+        tempdisplay.textContent="";
+        tempdisplay.textContent+=operand1;
+        tempdisplay.textContent+=operator;
         arr=[];
      }
      else if(k==106)
@@ -126,6 +149,9 @@ document.addEventListener('keydown',function(event){
         operator='*';
         operand1=parseFloat(display1.textContent);
         display1.textContent="";
+        tempdisplay.textContent="";
+        tempdisplay.textContent+=operand1;
+        tempdisplay.textContent+=operator;
         arr=[];
      }
      else if(k==111)
@@ -133,11 +159,15 @@ document.addEventListener('keydown',function(event){
        operator='/';
        operand1=parseFloat(display1.textContent);
        display1.textContent="";
+       tempdisplay.textContent="";
+       tempdisplay.textContent+=operand1;
+       tempdisplay.textContent+=operator;
        arr=[];
      }
       else if(k==13)
       {
         operand2=parseFloat(display1.textContent);
+        tempdisplay.textContent+=operand2;
         var result=eval(operand1+" "+operator+" "+operand2);
         if(result)
         {
@@ -207,6 +237,11 @@ document.addEventListener('keydown',function(event){
         }
         else{
             value="";
+        }
+        var text = display1.textContent.trim();
+        if(text.length==20 || text.length==40 || text.length==60 || text.length==80)
+        {
+           display1.textContent+='\n';
         }
         display1.textContent+=value;
         arr.push(value);
