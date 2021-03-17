@@ -93,6 +93,13 @@ for(var i=0;i<buttons.length;i++)
                 operand2 = null;
                 operator = null;
             }
+            else{
+                result=0;
+                display1.textContent=result;
+                operand1=result;
+                operand2 = null;
+                operator = null;
+            }
         }
         else if(value=='CE')
         {
@@ -173,6 +180,13 @@ document.addEventListener('keydown',function(event){
         {
             display1.textContent=result;
             operand1 = result;
+            operand2 = null;
+            operator = null;
+        }
+        else{
+            result=0;
+            display1.textContent=result;
+            operand1=result;
             operand2 = null;
             operator = null;
         }
